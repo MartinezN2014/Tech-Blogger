@@ -1,0 +1,22 @@
+{{#if Posts.length}}
+  <h1>Existing Posts:</h1>
+  <ul>
+    {{#each Posts}}
+      <li>
+        <h2>{{title}}</h2>
+        <p>Published on {{formatDate createdAt}}</p>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  
+{{/if}}
+<h1>THe WourldofWOW</h1>
+  <h2>Recent Blog Posts</h2>
+  {{#each blogs}}
+    <a href="/blog/{{id}}">{{title}}</a>
+    <p>{{createdAt}}</p>
+    
+  {{else}}
+    <p>No blog posts found.</p>
+  {{/each}}
