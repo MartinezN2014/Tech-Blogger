@@ -1,25 +1,30 @@
-const loginFormHandler = async function(event) {
+const loginFormHandler = async (event) => {
   event.preventDefault();
 
-  const usernameEl = document.querySelector('#username-input-login');
-  const passwordEl = document.querySelector('#password-input-login');
+  // Collect values from the login form
+  const name = document.querySelector("#name").value.trim();
+  const password = document.querySelector("#password").value.trim();
+  console.log(name, password);
+  if (name && password) {
+    // Send a POST request to the API endpoint
+    const response = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ name, password }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-  const response = await fetch('/api/user/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      username: usernameEl.value,
-      password: passwordEl.value,
-    }),
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  if (response.ok) {
-    document.location.replace('/dashboard');
-  } else {
-    alert('Failed to login');
+    if (response.ok) {
+      // If successful, redirect the browser to the profile page
+      document.location.replace("/profile");
+    } else {
+      alert(response.statusText);
+    }
   }
+  console.log("test");
 };
 
-document
-  .querySelector('#login-form')
-  .addEventListener('submit', loginFormHandler);
+window.onload = function () {
+  document
+    .querySelector(".login-form")
+    .addEventListener("submit", loginFormHandler);
+};

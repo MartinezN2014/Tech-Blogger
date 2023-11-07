@@ -1,25 +1,29 @@
-const commentFormHandler = async function(event) {
+const newCommentHandler = async (event) => {
   event.preventDefault();
 
-  const postId = document.querySelector('input[name="post-id"]').value;
-  const body = document.querySelector('textarea[name="comment-body"]').value;
+  const comment = document.querySelector("#comment").value.trim();
+  const blog_id = document.querySelector("#blog_id").value;
+  if (comment) {
+    console.log(document.querySelector("#blog_id"));
+    console.log(document.querySelector("#blog_id").value);
 
-  if (body) {
-    await fetch('/api/comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        postId,
-        body
-      }),
+    const response = await fetch(`/api/comment`, {
+      method: "POST",
+      body: JSON.stringify({ comment, blog_id }),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
-
-    document.location.reload();
+    if (response.ok) {
+      document.location.replace(`/blog/${blog_id}`);
+    } else {
+      alert("Failed to create blog post");
+    }
   }
 };
 
-document
-  .querySelector('#new-comment-form')
-  .addEventListener('submit', commentFormHandler);
+window.onload = function () {
+  document
+    .querySelector(".new-comment-form")
+    .addEventListener("submit", newCommentHandler);
+};
